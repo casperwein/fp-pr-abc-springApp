@@ -23,7 +23,11 @@ public class KaryawanImplement implements KaryawanService {
 
     @Override
     public List<Karyawan> findAllKaryawan(int row, int page) {
-        List<Karyawan> list = jdbcTemplate.query("SELECT * FROM karyawan", new RowMapper<Karyawan>() {
+        String sql = "SELECT karyawan.id, karyawan.nama, karyawan.jk, karyawan.dob, karyawan.status, karyawan.alamat, detail_karyawan.nik, detail_karyawan.npwp\n" +
+                "FROM karyawan\n" +
+                "LEFT JOIN detail_karyawan ON Karyawan.id = detail_karyawan.id_karyawan\n" +
+                "ORDER BY karyawan.id";
+        List<Karyawan> list = jdbcTemplate.query(sql, new RowMapper<Karyawan>() {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
@@ -33,6 +37,8 @@ public class KaryawanImplement implements KaryawanService {
                 kyw.setDob(rs.getDate("Dob"));
                 kyw.setStatus(rs.getString("Status"));
                 kyw.setAlamat(rs.getString("Alamat"));
+                kyw.setNik(rs.getString("nik"));
+                kyw.setNpwp(rs.getString("npwp"));
                 return kyw;
             }
         });
@@ -62,48 +68,60 @@ public class KaryawanImplement implements KaryawanService {
     @Override
     @GetMapping("/{karyawanId}")
     public List<Karyawan> findByIdSPKaryawan(long obj) {
-        String sql = "SELECT * FROM karyawan WHERE id = ?";
+        String sql = "SELECT karyawan.id, karyawan.jk,  karyawan.nama, karyawan.dob, karyawan.status, karyawan.alamat, detail_karyawan.nik, detail_karyawan.npwp\n" +
+                "FROM karyawan\n" +
+                "LEFT JOIN detail_karyawan ON Karyawan.id = detail_karyawan.id_karyawan\n" +
+                "WHERE karyawan.id = ?";
         List<Karyawan> list = jdbcTemplate.query(sql, new RowMapper<Karyawan>() {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
                 kyw.setId(rs.getLong("Id"));
-                kyw.setNama(rs.getString("Nama"));
+                kyw.setNama(rs.getString("nama"));
                 kyw.setJk(rs.getString("jk"));
                 kyw.setDob(rs.getDate("Dob"));
                 kyw.setStatus(rs.getString("Status"));
                 kyw.setAlamat(rs.getString("Alamat"));
+                kyw.setNik(rs.getString("nik"));
+                kyw.setNpwp(rs.getString("npwp"));
                 return kyw;
             }
         }, obj);
         return list;
     }
 
+
+    // select all like name
     @Override
     public List<Karyawan> findKaryawanByName(String name) {
-        String sql = "SELECT * FROM karyawan WHERE id = ?";
-        String like = "%"+ name + "%";
+//        String sql = "SELECT * FROM karyawan WHERE nama LIKE ?";
+        String sql = "SELECT karyawan.id, karyawan.jk,  karyawan.nama, karyawan.dob, karyawan.status, karyawan.alamat, detail_karyawan.nik, detail_karyawan.npwp\n" +
+                "FROM karyawan\n" +
+                "LEFT JOIN detail_karyawan ON Karyawan.id = detail_karyawan.id_karyawan\n" +
+                "WHERE karyawan.nama like '%per%'";
+        String like = "'%"+ name + "%'";
         List<Karyawan> list = jdbcTemplate.query(sql, new RowMapper<Karyawan>() {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
                 kyw.setId(rs.getLong("Id"));
                 kyw.setNama(rs.getString("Nama"));
+//                kyw.setNama(rs.getString("getlistkaryawanlike"));
                 kyw.setJk(rs.getString("jk"));
                 kyw.setDob(rs.getDate("Dob"));
                 kyw.setStatus(rs.getString("Status"));
                 kyw.setAlamat(rs.getString("Alamat"));
                 return kyw;
             }
-        }, like);
+        });
+        System.out.println(like);
         return list;
     }
+
+    // select name  by like name Function
 //
 //    @Override
 //    public Karyawan findByIdORMKaryawan(long obj) {
 //        return null;
 //    }
-
-
-
 }

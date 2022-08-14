@@ -8,7 +8,7 @@ import perusahaanABCD.model.Karyawan;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/karyawan")
+@RequestMapping("/v1/sp/karyawan")
 public class KaryawanController {
     @Autowired
     public perusahaanABCD.service.KaryawanService karyawanService;
@@ -29,8 +29,8 @@ public class KaryawanController {
     }
 
     @GetMapping("/list/{karyawanName}")
-    public List<Karyawan> getListByKaryawanName(Model model, @PathVariable String karywanname) {
-        List<Karyawan> karyawan = karyawanService.findKaryawanByName(karywanname);
+    public List<Karyawan> getListByKaryawanName(Model model, @PathVariable String karyawanName) {
+        List<Karyawan> karyawan = karyawanService.findKaryawanByName(karyawanName);
         return karyawan;
     }
 

@@ -1,5 +1,6 @@
 package perusahaanABCD.controller;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,4 +36,17 @@ public class KaryawanController {
     }
 
 
+    @PostMapping("/add")
+    public List<Karyawan> postKaryawan( @RequestBody Karyawan karyawan){
+        List<Karyawan> newKaryawan = (List<Karyawan>) karyawanService.postSPKaryawan(karyawan);
+        System.out.println(karyawan);
+        return newKaryawan;
+    }
+
 }
+//    @RequestBody int id , @RequestBody String nama, String jk,
+//@RequestBody String dob, @RequestBody String alamat,
+//
+//new Karyawan(karyawan.getId(), karyawan.getJk(), karyawan.getDob(), karyawan.getNama(),
+//        karyawan.getAlamat(), karyawan.getStatus(), karyawan.getNik(), karyawan.getNpwp(), karyawan.getError_code(), karyawan.getError_desc()));
+//        return "Data karyawan sudah ditambahkan"

@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Data
 public class Karyawan {
-    private Long id;
+    private int id;
     private String nama;
     private String jk;
     private Date dob;

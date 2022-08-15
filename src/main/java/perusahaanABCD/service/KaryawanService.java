@@ -6,7 +6,7 @@ import perusahaanABCD.model.Karyawan;
 import java.util.List;
 
 public interface KaryawanService {
-//    public Karyawan postSPKaryawan(Karyawan obj);
+    public List<Karyawan> postSPKaryawan(Karyawan obj);
 //    public Karyawan postORMKaryawan(Karyawan obj);
 //    public Karyawan updateSPKaryawan(Karyawan obj);
 //    public Karyawan updateORMKaryawan(Karyawan obj);

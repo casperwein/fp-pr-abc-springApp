@@ -10,6 +10,7 @@ import perusahaanABCD.service.KaryawanService;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,7 +32,7 @@ public class KaryawanImplement implements KaryawanService {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
-                kyw.setId(rs.getLong("Id"));
+                kyw.setId(rs.getInt("Id"));
                 kyw.setNama(rs.getString("Nama"));
                 kyw.setJk(rs.getString("jk"));
                 kyw.setDob(rs.getDate("Dob"));
@@ -45,10 +46,29 @@ public class KaryawanImplement implements KaryawanService {
         return list;
     }
 
-//    @Override
-//    public Karyawan postSPKaryawan(Karyawan obj) {
-//        return null;
-//    }
+
+
+    @Override
+    public List<Karyawan> postSPKaryawan(Karyawan obj) {
+        String sql = "call savekaryawan(?,?,?,?,?,?,?,?,?,?)";
+        int id = obj.getId();
+        String nama = obj.getNama();
+        String jk = obj.getJk();
+        Date dob = obj.getDob();
+        String status = obj.getStatus();
+        String alamat = obj.getAlamat();
+        String nik = obj.getNik();
+        String npwp = obj.getNpwp();
+        String error_desc = obj.getError_desc();
+        int error_code = obj.getError_code();
+
+        return  jdbcTemplate.query(sql, new RowMapper<Karyawan>(){
+            @Override
+            public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return obj;
+            }
+        }, nama, jk, dob, alamat, status, nik, npwp, id, error_desc, error_code);
+    }
 //
 //    @Override
 //    public Karyawan postORMKaryawan(Karyawan obj) {
@@ -76,7 +96,7 @@ public class KaryawanImplement implements KaryawanService {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
-                kyw.setId(rs.getLong("Id"));
+                kyw.setId(rs.getInt("Id"));
                 kyw.setNama(rs.getString("nama"));
                 kyw.setJk(rs.getString("jk"));
                 kyw.setDob(rs.getDate("Dob"));
@@ -104,7 +124,7 @@ public class KaryawanImplement implements KaryawanService {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Karyawan kyw = new Karyawan();
-                kyw.setId(rs.getLong("Id"));
+                kyw.setId(rs.getInt("Id"));
                 kyw.setNama(rs.getString("Nama"));
 //                kyw.setNama(rs.getString("getlistkaryawanlike"));
                 kyw.setJk(rs.getString("jk"));

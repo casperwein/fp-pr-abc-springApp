@@ -1,6 +1,5 @@
 package perusahaanABCD.controller;
 
-import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +35,16 @@ public class KaryawanController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public List<Karyawan> postKaryawan( @RequestBody Karyawan karyawan){
         List<Karyawan> newKaryawan = (List<Karyawan>) karyawanService.postSPKaryawan(karyawan);
+        System.out.println(karyawan);
+        return newKaryawan;
+    }
+
+    @PutMapping("/")
+    public List<Karyawan> updateKaryawan( @RequestBody Karyawan karyawan){
+        List<Karyawan> newKaryawan = (List<Karyawan>) karyawanService.updateSPKaryawan(karyawan);
         System.out.println(karyawan);
         return newKaryawan;
     }

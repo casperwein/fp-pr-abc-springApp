@@ -46,11 +46,9 @@ public class KaryawanImplement implements KaryawanService {
         return list;
     }
 
-
-
     @Override
     public List<Karyawan> postSPKaryawan(Karyawan obj) {
-        String sql = "call savekaryawan(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "call savekaryawan(?,?,?,?,?,?,?,?,?,?)"; // pada database dicek, apakah SP nya sama untuk save karyawan.
         int id = obj.getId();
         String nama = obj.getNama();
         String jk = obj.getJk();
@@ -69,22 +67,29 @@ public class KaryawanImplement implements KaryawanService {
             }
         }, nama, jk, dob, alamat, status, nik, npwp, id, error_desc, error_code);
     }
-//
-//    @Override
-//    public Karyawan postORMKaryawan(Karyawan obj) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Karyawan updateSPKaryawan(Karyawan obj) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Karyawan updateORMKaryawan(Karyawan obj) {
-//        return null;
-//    }
-//
+
+    @Override
+    public List<Karyawan> updateSPKaryawan(Karyawan obj) {
+        String sql = "call updatekaryawan(?,?,?,?,?,?,?,?,?,?)"; // pada database dicek, apakah SP nya sama untuk save karyawan.
+        int id = obj.getId();
+        String nama = obj.getNama();
+        String jk = obj.getJk();
+        Date dob = obj.getDob();
+        String status = obj.getStatus();
+        String alamat = obj.getAlamat();
+        String nik = obj.getNik();
+        String npwp = obj.getNpwp();
+        String error_desc = obj.getError_desc();
+        int error_code = obj.getError_code();
+
+        return  jdbcTemplate.query(sql, new RowMapper<Karyawan>(){
+            @Override
+            public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return obj;
+            }
+        }, nama, jk, dob, alamat, status, nik, npwp, id, error_desc, error_code);
+    }
+
     @Override
     @GetMapping("/{karyawanId}")
     public List<Karyawan> findByIdSPKaryawan(long obj) {
@@ -114,12 +119,11 @@ public class KaryawanImplement implements KaryawanService {
     // select all like name
     @Override
     public List<Karyawan> findKaryawanByName(String name) {
-//        String sql = "SELECT * FROM karyawan WHERE nama LIKE ?";
         String sql = "SELECT karyawan.id, karyawan.jk,  karyawan.nama, karyawan.dob, karyawan.status, karyawan.alamat, detail_karyawan.nik, detail_karyawan.npwp\n" +
                 "FROM karyawan\n" +
                 "LEFT JOIN detail_karyawan ON Karyawan.id = detail_karyawan.id_karyawan\n" +
-                "WHERE karyawan.nama like '%per%'";
-        String like = "'%"+ name + "%'";
+                "WHERE karyawan.nama like ?";
+        String like = "%"+ name + "%";
         List<Karyawan> list = jdbcTemplate.query(sql, new RowMapper<Karyawan>() {
             @Override
             public Karyawan mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -133,15 +137,8 @@ public class KaryawanImplement implements KaryawanService {
                 kyw.setAlamat(rs.getString("Alamat"));
                 return kyw;
             }
-        });
-        System.out.println(like);
+        }, like);
         return list;
     }
 
-    // select name  by like name Function
-//
-//    @Override
-//    public Karyawan findByIdORMKaryawan(long obj) {
-//        return null;
-//    }
 }

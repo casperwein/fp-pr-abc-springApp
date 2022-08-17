@@ -41,7 +41,7 @@
                 "error_code": 0
             }
 
-### Training Tabel => Store Procedural and Function
+### Training Tabel 
 #### Method: Get
     Get all training
         path    : localhost:9490/v1/training/
@@ -70,7 +70,26 @@
                 "tema": "back-end development",
                 "nama_pengajar": "surti remaja"
             }
+
+
+### Karyawan Training Tabel 
+#### Method: Get
+    Post Karyawan Training
+        path    : localhost:9490/v1/training-karyawan/
+        json    :  
+            {
+                "id": 2,
+                "id_karyawan": 1,
+                "id_training": 1,
+                "tanggal_training": "2022-04-05"
+            }
         
+    Get All training (list) 
+        path    : localhost:9490/v1/training-karyawan/
+
+
+### Rekening Tabel
+#### Method: Get
 
 #### Perhatikan pada application.properties:
     - spring.datasource.url=jdbc:postgresql://localhost:5432/perusahaanABC

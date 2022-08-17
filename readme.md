@@ -90,6 +90,31 @@
 
 ### Rekening Tabel
 #### Method: Get
+    Get All Rekening
+        path    : localhost:9490/v1/rekening/
+    Post New Rekening
+        path    : localhost:9490/v1/rekening/
+        json    : 
+            {
+                "id": 2,
+                "nama": "darwin",
+                "jenis": "bca",
+                "nomor": "324124",
+                "id_karyawan": 1
+            }
+    Update Rekening
+        path    : localhost:9490/v1/rekening/
+        json    : 
+            {
+                "id": 2,
+                "nama": "darwin",
+                "jenis": "bri",
+                "nomor": "324124",
+                "id_karyawan": 1
+            }
+    Delete Rekening
+        path    : localhost:9490/v1/rekening/2
+        
 
 #### Perhatikan pada application.properties:
     - spring.datasource.url=jdbc:postgresql://localhost:5432/perusahaanABC
